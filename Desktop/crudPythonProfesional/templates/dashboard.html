@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">Panel de Control</h2>
+<div class="row mb-4">
+  <div class="col-md-4">
+    <div class="card text-white bg-primary shadow">
+      <div class="card-body">
+        <h5 class="card-title"><i class="fas fa-users me-2"></i> Total personas</h5>
+        <p class="card-text display-6">{{ personas|length }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-success shadow">
+      <div class="card-body">
+        <h5 class="card-title"><i class="fas fa-file-alt me-2"></i> Con documento</h5>
+        <p class="card-text display-6">
+          {{ personas|selectattr("documento")|select("string")|list|length }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a href="{{ url_for('create_persona') }}" class="btn btn-success mb-3">➕ Nueva Persona</a>
+
+<form method="POST" class="mb-3 d-flex">
+  <input type="text" name="buscar" class="form-control me-2" placeholder="🔍 Buscar por nombre..." required>
+  <button type="submit" class="btn btn-outline-primary">Buscar</button>
+</form>
+
+
+<table class="table table-striped table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Edad</th>
+      <th>Correo</th>
+      <th>Teléfono</th>
+      <th>Documento</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for persona in personas %}
+    <tr>
+      <td>{{ persona.id }}</td>
+      <td>{{ persona.nombre }}</td>
+      <td>{{ persona.edad }}</td>
+      <td>{{ persona.correo }}</td>
+      <td>{{ persona.telefono }}</td>
+      <td>
+        {% if persona.documento %}
+        <a href="{{ url_for('static', filename='uploads/' ~ persona.documento) }}" target="_blank">Ver</a>
+        {% else %}
+        Sin archivo
+        {% endif %}
+      </td>
+      <td>
+        <a href="{{ url_for('editar_persona', id=persona.id) }}" class="btn btn-sm btn-warning">✏️ Editar</a>
+        <a href="{{ url_for('eliminar_persona', id=persona.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que deseas eliminar esta persona?');">🗑️ Eliminar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+
+

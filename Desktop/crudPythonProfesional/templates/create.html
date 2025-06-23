@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Agregar Persona{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">➕ Agregar Persona</h2>
+<form method="POST" enctype="multipart/form-data">
+  <div class="mb-3">
+    <label for="nombre" class="form-label">Nombre completo</label>
+    <input type="text" name="nombre" class="form-control" required pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras y espacios">
+  </div>
+  <div class="mb-3">
+    <label for="edad" class="form-label">Edad</label>
+    <input type="number" name="edad" class="form-control" required min="1" max="120">
+  </div>
+  <div class="mb-3">
+    <label for="correo" class="form-label">Correo electrónico</label>
+    <input type="email" name="correo" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label for="telefono" class="form-label">Teléfono</label>
+    <input type="text" name="telefono" class="form-control" required pattern="[0-9]{8,}" title="Mínimo 8 dígitos numéricos">
+  </div>
+  <div class="mb-3">
+    <label for="documento" class="form-label">Adjuntar documento o imagen</label>
+    <input type="file" name="documento" class="form-control">
+  </div>
+
+  <button type="submit" class="btn btn-success">Guardar</button>
+  <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+
+{% endblock %}
