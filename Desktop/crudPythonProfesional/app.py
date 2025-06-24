@@ -28,7 +28,6 @@ with app.app_context():
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
 # === RUTAS PRINCIPALES === #
 
 @app.route('/')
@@ -86,8 +85,6 @@ def dashboard():
     else:
         personas = Persona.query.all()
     return render_template('dashboard.html', personas=personas)
-
-
 
 # === CRUD DE PERSONAS === #
 
